@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    </head>
+    <body>
+        <div class="container text-center py-5">
+            <h1 class="display-3 py-5">Resolución de Laberintos</h1>
+        </div>
+        <div id="laberinto">
+            <form style="text-align:center" name="forma1" autocomplete="on">
+                <table style="margin:0 auto;">
+                    <tr>
+                        <td style="float:right;">Alto:</td>
+                        <td><input type="text" id="height" name="height" autofocus="autofocus" maxlength="2" size="6" /></td>
+                    </tr>
+                    <tr>
+                        <td style="float:right;">Ancho:</td>
+                        <td><input type="text" id="width" name="width"  maxlength="2" size="6" /></td>
+                    </tr>
+                </table>
+                <input type="button" alt="submit" onClick="datos();" value="Generar Laberinto" style="margin-top:10px;" />
+            </form>
+        </div>
+        
+        <pre id="out"></pre>
+        <script src="creador.js"></script>
+        <div id="seccion-resolucion">
+            <form style="text-align:center" name="forma1" autocomplete="on">
+                <input type="button" alt="submit" onClick="resolver();" value="Resolver Laberinto" style="margin-top:30px;" />
+            </form>
+        </div>
+
+    </body>
+
+</html>
