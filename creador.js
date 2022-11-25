@@ -116,4 +116,9 @@ function draw() {
 
 function resolverLaberinto(x, y){
 
+    // usar dickstra
+}
+
+function mostrarLaberintoResuelto(){
+
 }
