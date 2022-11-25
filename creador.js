@@ -37,10 +37,10 @@ function crearLaberinto(x,y){
     for(var i=0; i<=x; i++) {
         for(var j=0; j<=y; j++) {
             if(i!=j && i>0 && j>0) {
-                if(matriz[i][j]==1 && matriz[j][i]!= null) {
+                if(typeof matriz[i][j]==1 && matriz[j][i]!= null) {
                     matriz[j][i] = 1;
                 }
-                else if(matriz[i][j]==0 && matriz[j][i]!= null) {
+                else if(typeof matriz[i][j]==0 && matriz[j][i]!= null) {
                     matriz[j][i] = 0;
                 }
             }
