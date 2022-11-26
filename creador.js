@@ -4,15 +4,88 @@ const valor=64;
 
 function datos() {
     matriz = [];
-    var height = parseInt(document.getElementById("height").value);
-    var width = parseInt(document.getElementById("width").value);
+    var alto = parseInt(document.getElementById("altura").value);
+    var ancho = parseInt(document.getElementById("ancho").value);
 
-    crearLaberinto(height,width);
+    crearLaberinto(alto,ancho);
 
     document.getElementById('out').innerHTML = matriz.join('\n');
 }
 
 function crearLaberinto(x,y){
+
+    //opcion 2
+    var celda = []; //posible uso de objetos
+
+    for(var i=0; i<x; i++){
+        celda[i]= [];
+
+        for(var j=0; j<y; j++){
+            celda[i][j] = new Object();
+
+            celda[i][j].anarr = 0;
+            celda[i][j].ander = 0;
+            celda[i][j].anaba = 0;
+            celda[i][j].anizq = 0;
+        }
+    }
+            /*
+            Elementos del objeto
+            -arr: revisa si arriba entra o sale
+            -aba: abajo
+            -der: derecha
+            -izq: izquierda
+            -anizq: analisis izquierda, si ya existe una conexion determinada anterior, se duplica.
+            -ander: lo mismo para la derecha
+            -anarr: lo mismo para arriba
+            -anaba: lo mismo para abajo
+            */
+    for(var i=0; i<x; i++){
+        
+        for(var j=0; j<y; j++){
+            if(i==0 && j==0){
+                celda[i][j].arr = 0;
+                celda[i][j].der = Math.floor(Math.random()*2);
+                if(celda[i][j+1].anizq != 1){
+                    celda[i][j+1].izq = celda[i][j].der;
+                }
+                celda[i][j].aba = Math.floor(Math.random()*2);
+                celda[i][j].izq = 0;
+            }
+            else if(j==0 && i!=0){
+                celda[i][j].arr = Math.floor(Math.random()*2);
+                celda[i][j].der = Math.floor(Math.random()*2);
+                celda[i][j].aba = Math.floor(Math.random()*2);
+                celda[i][j].izq = 0;  
+            }
+            else if(i==0 && j!=0){
+                celda[i][j].arr = 0;
+                celda[i][j].der = Math.floor(Math.random()*2);
+                celda[i][j].aba = Math.floor(Math.random()*2);
+                celda[i][j].izq = Math.floor(Math.random()*2);
+            }
+            else if(i==x-1 && j!=0){
+                celda[i][j].arr = Math.floor(Math.random()*2);
+                celda[i][j].der = Math.floor(Math.random()*2);
+                celda[i][j].aba = 0;
+                celda[i][j].izq = Math.floor(Math.random()*2); 
+            }
+            else if(j==y-1 && i!=0){
+                celda[i][j].arr = Math.floor(Math.random()*2);
+                celda[i][j].der = 0;
+                celda[i][j].aba = Math.floor(Math.random()*2);
+                celda[i][j].izq = Math.floor(Math.random()*2); 
+            }
+            else{
+                celda[i][j].arr = Math.floor(Math.random()*2);
+                celda[i][j].der = Math.floor(Math.random()*2);
+                celda[i][j].aba = Math.floor(Math.random()*2);
+                celda[i][j].izq = Math.floor(Math.random()*2);
+            }
+        }
+    }
+
+    //opcion 1
 
     for(var i=0; i<=x; i++){
         matriz[i] = [];
@@ -52,8 +125,9 @@ function crearLaberinto(x,y){
 }
 
 function draw() {
-    var y = parseInt(document.getElementById("height").value);
-    var x = parseInt(document.getElementById("width").value);
+    var y = parseInt(document.getElementById("altura").value);
+    var x = parseInt(document.getElementById("ancho").value);
+
     const canvas = document.getElementById('canvas');
     if(canvas.getContext) {
         const ctx = canvas.getContext('2d');
