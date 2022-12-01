@@ -33,7 +33,7 @@ function crearLaberinto(x,y){
         for(var j=0; j<=y*x; j++){
             if(i!=0 && j!=0){;
                 if(j<=y && matriz[i][j] != null){
-                    if(i==j && j<y) {                   //Revisa si hay pared hacia la derecha en la priemra fila
+                    if(i==j && j<y) {                   //Revisa si hay pared hacia la derecha en la primera fila
                         matriz[i][j+1] = Math.floor(Math.random()*2);
                         matriz[j+1][i] = matriz[i][j+1];
                         matriz[i][j+y] = Math.floor(Math.random()*2);
@@ -61,7 +61,7 @@ function crearLaberinto(x,y){
                     }
                 }
                 else if(matriz[i][j] == null){
-                    matriz[i][j] = "x";
+                    matriz[i][j] = "x";            
                 }
             }
         }
