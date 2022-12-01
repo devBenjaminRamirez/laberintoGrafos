@@ -61,7 +61,7 @@ function crearLaberinto(x,y){
                     }
                 }
                 else if(matriz[i][j] == null){
-                    matriz[i][j] = "y";            //
+                    matriz[i][j] = "x";            //
                 }
             }
         }
