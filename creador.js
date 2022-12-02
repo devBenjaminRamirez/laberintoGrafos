@@ -1,11 +1,12 @@
-
 var matriz=[];
 const valor=64;
+var alto = 0;
+var ancho = 0;
 
 function datos() {
     matriz = [];
-    var alto = parseInt(document.getElementById("altura").value);
-    var ancho = parseInt(document.getElementById("ancho").value);
+    alto = parseInt(document.getElementById("altura").value);
+    ancho = parseInt(document.getElementById("ancho").value);
 
     crearLaberinto(alto,ancho);
 
@@ -25,7 +26,7 @@ function crearLaberinto(x,y){
                 matriz[i][j] = String.fromCharCode(valor+i);
             }
             else if(i==j){
-                matriz[i][j]=0;
+                matriz[i][j]='-';
             }
         }
     }
@@ -108,7 +109,7 @@ function crearLaberinto(x,y){
     }
 
 
-    const canvas = document.getElementById('canvas');
+    /*const canvas = document.getElementById('canvas'); //se dibujara en la funcion draw.
     if(canvas.getContext) {
         const ctx = canvas.getContext('2d');
 
@@ -131,77 +132,45 @@ function crearLaberinto(x,y){
                 }
             }
         }
-    }
+    }*/
 }
 
 function draw() {
-    var y = parseInt(document.getElementById("altura").value);
-    var x = parseInt(document.getElementById("ancho").value);
+
+    var y = alto;
+    var x = ancho;
+    var total = x*y;
+
+    var ubi_x = 300/y, ubi_y = 0, mov_x = 0, mov_y = 0;
 
     const canvas = document.getElementById('canvas');
     if(canvas.getContext) {
         const ctx = canvas.getContext('2d');
-
-        var entrada = 0 + Math.floor(Math.random()*x);
-        var salida = 0 + Math.floor(Math.random()*x);
-        /*for(var i=0;i<x;i++) {
-            var largo=i*(300/x);
-            for(var j=0;j<y;j++) {
-                var alto=j*(300/y);
-                if(i == entrada && j == 0) { //crea la entrada
-                    ctx.beginPath();
-                    ctx.moveTo(largo,alto);
-                    ctx.lineTo(largo,alto+(300/y));
-                    ctx.lineTo(largo+(300/x),alto+(300/y));
-                    ctx.lineTo(largo+(300/x),alto);
-                    ctx.stroke();
-                }
-                else if(i == salida && j == y-1) { //crea la saldia
-                    ctx.beginPath();
-                    ctx.moveTo(largo,alto);
-                    ctx.lineTo(largo,alto+(300/y));
-                    ctx.moveTo(largo,alto);
-                    ctx.lineTo(largo+(300/x),alto);
-                    ctx.lineTo(largo+(300/x),alto+(300/y));
-                    ctx.stroke();
-
-                }
-                else {
-                    ctx.beginPath();
-                    ctx.moveTo(largo,alto);
-                    ctx.lineTo(largo+(300/x),alto);
-                    ctx.lineTo(largo+(300/x),alto+(300/y));
-                    ctx.lineTo(largo,alto+(300/y));
-                    ctx.lineTo(largo,alto);
-                    ctx.stroke();
-                }
-                
-            }
-        }*/
         ctx.beginPath();
         ctx.moveTo(0,0);
         ctx.lineTo(0,300);
-        ctx.lineTo(300,300);
-        ctx.lineTo(300,0);
-        ctx.lineTo(0,0);
         ctx.stroke();
-        for(var i=0; i<=x*y; i++){
-            var largo=i*(300/x);
-            for(var j=0; j<=y*x; j++){ //recorre la matriz dibujando las paredes
-                var alto=j*(300/y);
-                if(i==j){
-                    if(matriz[i][j+1]==0 && matriz[i][j+1]!=null) {
-                        ctx.beginPath();
-                        ctx.moveTo(largo+(300/x),alto);
-                        ctx.lineTo(largo+(300/x),alto+(300/y));
-                        ctx.stroke();
-                    }
-                    if(matriz[i][j+y] == 0 && matriz[i][j+y]!=null) {
-                        ctx.beginPath();
-                        ctx.moveTo(largo,alto+(300/y));
-                        ctx.lineTo(largo+(300/x),alto+(300/y));
-                        ctx.stroke();
-                    }
+
+        for(var i=1;i<=total;i++) {
+            for(var j=1;j<=total;j++) {
+                
+                if(matriz[i][j+1] == 0){
+                    ctx.beginPath();
+                    ctx.moveTo(ubi_x+((j-1)*(300/x)), ubi_y+(mov_y*(300/y)));
+                    ctx.lineTo(ubi_x+((j-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
+                    ctx.stroke();
+                    //barrera derecha
+                }
+                if(matriz[i][j+y]==0){
+                    ctx.beginPath();
+                    ctx.moveTo(ubi_x+((j-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
+                    ctx.lineTo(ubi_x+(((j-1)-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
+                    ctx.stroke();
+                    //barrera abajo
+                }
+                mov_x++;
+                if(j==x){
+                    mov_y++;
                 }
             }
         }
@@ -210,7 +179,7 @@ function draw() {
 
 function resolverLaberinto(x, y){
 
-    // usar dickstra
+    
 }
 
 function mostrarLaberintoResuelto(){
