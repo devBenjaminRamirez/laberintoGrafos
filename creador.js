@@ -10,7 +10,7 @@ function datos() {
 
     crearLaberinto(alto,ancho);
 
-    document.getElementById('out').innerHTML = matriz.join('\n');
+    //document.getElementById('out').innerHTML = matriz.join('\n');
 }
 
 function crearLaberinto(x,y){
@@ -107,32 +107,7 @@ function crearLaberinto(x,y){
             matriz[pos4][pos3] = 1;
         }
     }
-
-
-    /*const canvas = document.getElementById('canvas'); //se dibujara en la funcion draw.
-    if(canvas.getContext) {
-        const ctx = canvas.getContext('2d');
-
-        var entrada = 0 + Math.floor(Math.random()*x);
-        var salida = 0 + Math.floor(Math.random()*x);
-        for(var i=1; i<=x*y; i++){
-            var largo=(i-1)*(300/x);
-            for(var j=1; j<=y*x; j++){
-                var alto=(j-1)*(300/y);
-                if(i==j){
-                    if(matriz[i][j+1]==0)
-                    {
-                        ctx.lineWidth = 5;
-                        ctx.beginPath();
-                        ctx.moveTo(largo+(300/y),alto);
-                        ctx.lineTo(largo+(300/y),alto+(300/x));
-                        ctx.stroke();
-                        console.log("pillamos 1");
-                    }
-                }
-            }
-        }
-    }*/
+    draw();
 }
 
 function draw() {
@@ -140,8 +115,7 @@ function draw() {
     var y = alto;
     var x = ancho;
     var total = x*y;
-
-    var ubi_x = 300/y, ubi_y = 0, mov_x = 0, mov_y = 0;
+    var mov_x=0, mov_y=0;
 
     const canvas = document.getElementById('canvas');
     if(canvas.getContext) {
@@ -149,28 +123,37 @@ function draw() {
         ctx.beginPath();
         ctx.moveTo(0,0);
         ctx.lineTo(0,300);
+        ctx.moveTo(300,0);
+        ctx.lineTo(300,300);
         ctx.stroke();
 
         for(var i=1;i<=total;i++) {
             for(var j=1;j<=total;j++) {
                 
-                if(matriz[i][j+1] == 0){
+                if(i==j){
+                    
                     ctx.beginPath();
-                    ctx.moveTo(ubi_x+((j-1)*(300/x)), ubi_y+(mov_y*(300/y)));
-                    ctx.lineTo(ubi_x+((j-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
+                    ctx.moveTo(mov_x*(300/x), mov_y*(300/y))
+                    if(matriz[i][j+1]==0){
+                        ctx.moveTo((mov_x+1)*(300/x), mov_y*(300/y));
+                        ctx.lineTo((mov_x+1)*(300/x), (mov_y+1)*(300/y));
+                        //dibujar linea hacia abajo
+                    }
+                    else{
+                        ctx.moveTo((mov_x+1)*(300/x), (mov_y+1)*(300/y));
+                        //move
+                    }
+                    if(matriz[i][j+x]==0){
+                        ctx.lineTo((mov_x)*(300/x), (mov_y+1)*(300/y));
+                        //dibujar linea hacia la izquierda
+                    }
                     ctx.stroke();
-                    //barrera derecha
-                }
-                if(matriz[i][j+y]==0){
-                    ctx.beginPath();
-                    ctx.moveTo(ubi_x+((j-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
-                    ctx.lineTo(ubi_x+(((j-1)-1)*(300/x)), ubi_y+((mov_y+1)*(300/y)));
-                    ctx.stroke();
-                    //barrera abajo
-                }
-                mov_x++;
-                if(j==x){
-                    mov_y++;
+                    mov_x++;
+                    if(mov_x==x){
+                        mov_y++;
+                        mov_x = 0;
+                    }
+                    
                 }
             }
         }
