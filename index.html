@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="estilo.css" media="screen" />
-
     </head>
     <body>
         <div class="container text-center py-5">
@@ -44,13 +43,11 @@
         <script src="creador.js"></script>
         <div id="seccion-resolucion">
             <form style="text-align:center" name="forma1" autocomplete="on">
-                <input type="button" alt="submit" onClick="resolverLaberinto();" value="Resolver" style="margin-top:10px;" />
+                <input type="button" alt="submit" onClick="resolverLaberinto(ancho,alto);" value="Resolver" style="margin-top:10px;" />
             </form>
             <form style="text-align:center; margin-top: 30px;">
                 <canvas id="canvas" width="900" height="900"></canvas>
             </form>
         </div>
-
     </body>
-
 </html>

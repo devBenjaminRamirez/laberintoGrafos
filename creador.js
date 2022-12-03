@@ -2,6 +2,9 @@ var matriz=[];
 const valor=64;
 var alto = 0;
 var ancho = 0;
+var distancia = 9999;
+var entrada = 0;
+var salida = 0, c;
 
 var limpiar = document.getElementById("limpiar");
 limpiar.addEventListener("click",function(){
@@ -15,13 +18,15 @@ function datos() {
 
     crearLaberinto(alto,ancho);
 
-    //document.getElementById('out').innerHTML = matriz.join('\n');
+    document.getElementById('out').innerHTML = matriz.join('\n');
 }
 
 function crearLaberinto(x,y){
     for(var i=0; i<=x*y; i++){          //Crea la matriz de forma aleatoria
         matriz[i] = [];
-
+        entrada = 0;
+        salida = 0;
+        c=0;
         for(var j=0; j<=y*x; j++){
             matriz[0][0] = " ";
             if(i==0){
@@ -112,11 +117,11 @@ function crearLaberinto(x,y){
             matriz[pos4][pos3] = 1;
         }
     }
-    var entrada = Math.floor(Math.random()*(y));
+    entrada = Math.floor(Math.random()*(y));
     if(entrada == 0){
         entrada = 1;
     }
-    var salida = Math.floor(Math.random()*(y));
+    salida = Math.floor(Math.random()*(y));
     if(salida == 0){
         salida = 1;
     }
@@ -191,10 +196,50 @@ function draw(entrada, salida) { //lista, dibuja correctamente el laberinto.
     }
 }
 
-function resolverLaberinto(x, y){
+function resolverLaberinto(){
     //aplicar dickstra
+    //techo es [i][j-x]
+    //inferior es [i][j+x]
+    //izquierdo es [i][j-1]
+    //derecho es [i][j+1]
+    //entro en [entrada][entrada]
+    //salgo en [x*y+salida][x*y+salida]
+    var distancia_actual = 0;
+    var pos_actual = entrada;
+    var r=0;
+    while(r<5){
 
-
+        if(matriz[pos_actual][pos_actual+ancho] == 1 && matriz[pos_actual][pos_actual+ancho].visited != true){
+            //analizamos el inferior
+            distancia_actual++;
+            matriz[pos_actual][pos_actual].visited = true; //esto hace que no se vuelva a analizar
+            pos_actual = pos_actual+ancho; //posible error
+            //cambiar pos_actual al vertice de abajo
+        }
+        if(matriz[pos_actual][pos_actual-1] == 1 && matriz[pos_actual][pos_actual-1].visited != true){
+            //analizamos el de la izquierda
+            distancia_actual++;
+            matriz[pos_actual][pos_actual].visited = true;
+            pos_actual--;
+            //cambiar pos_actual al vertice de la izquierda
+        }
+        if(matriz[pos_actual][pos_actual+1] == 1 && matriz[pos_actual][pos_actual+1].visited != true){
+            //analizamos el de la derecha
+            distancia_actual++;
+            matriz[pos_actual][pos_actual].visited = true;
+            pos_actual++;
+            //cambiar pos_actual al vertice de la derecha
+        }
+        if(matriz[pos_actual][pos_actual-ancho] == 1 && matriz[pos_actual][pos_actual-ancho].visited != true){
+            //analizamos el techo
+            distancia_actual++;
+            matriz[pos_actual][pos_actual].visited = true;
+            pos_actual = pos_actual-ancho; //posible error
+            //cambiar pos_actual al vertice de arriba
+        }
+        r++;
+    }
+    console.log(distancia_actual);
 }
 
 function mostrarLaberintoResuelto(){
