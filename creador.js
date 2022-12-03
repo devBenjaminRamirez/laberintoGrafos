@@ -207,6 +207,7 @@ function resolverLaberinto(){
     var distancia_actual = 0;
     var pos_actual = entrada;
     var r=0;
+    console.log(ancho)
 
         if(matriz[pos_actual][pos_actual+ancho] == 1 && matriz[pos_actual][pos_actual+ancho].visited != true){
             //analizamos el inferior
