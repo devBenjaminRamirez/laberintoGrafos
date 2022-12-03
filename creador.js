@@ -207,7 +207,6 @@ function resolverLaberinto(){
     var distancia_actual = 0;
     var pos_actual = entrada;
     var r=0;
-    while(r<5){
 
         if(matriz[pos_actual][pos_actual+ancho] == 1 && matriz[pos_actual][pos_actual+ancho].visited != true){
             //analizamos el inferior
@@ -237,8 +236,6 @@ function resolverLaberinto(){
             pos_actual = pos_actual-ancho; //posible error
             //cambiar pos_actual al vertice de arriba
         }
-        r++;
-    }
     console.log(distancia_actual);
 }
 
