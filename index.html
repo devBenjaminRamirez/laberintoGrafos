@@ -9,8 +9,16 @@
     <body>
         <div class="container text-center py-5">
             <h1 class="display-3 py-5">Resolución de Laberintos</h1>
+            <p>Instrucciones de uso:</p>
+            <li>
+                Cada vez que se quiera volver a generar se debe presionar "limpiar".
+            </li>
+            <li>
+                El laberinto puede ser de maximo 99 x 99.
+            </li>
         </div>
-        <div id="laberinto">
+        <!-- Seccion recibir datos, generar y dibujar-->
+        <div id="laberinto" style="margin-top:30px;">
             <form style="text-align:center" name="forma1" autocomplete="on">
                 <table style="margin:0 auto;">
                     <tr>
@@ -22,20 +30,25 @@
                         <td><input type="text" id="ancho" name="ancho"  maxlength="2" size="6" /></td>
                     </tr>
                 </table>
-                <input type="button" alt="submit" onClick="datos();" value="Generar Laberinto" style="margin-top:10px;" />
+                <table>
+                    <tr>
+                        <input  type="button" alt="submit" onClick="datos();" value="Generar Laberinto" style="margin-top:10px;" />
+                    </tr>
+                </table>
+                <button id="limpiar" style="margin-top:20px;">Limpiar</button>
+                
             </form>
         </div>
-        
+        <!-- Seccion resolver-->
         <pre id="out"></pre>
         <script src="creador.js"></script>
         <div id="seccion-resolucion">
             <form style="text-align:center" name="forma1" autocomplete="on">
-                <input type="button" alt="submit" onClick="draw();" value="Dibujar" style="margin-top:30px;" />
+                <input type="button" alt="submit" onClick="resolverLaberinto();" value="Resolver" style="margin-top:10px;" />
             </form>
             <form style="text-align:center; margin-top: 30px;">
-                <canvas id="canvas" width="300" height="300"></canvas>
+                <canvas id="canvas" width="900" height="900"></canvas>
             </form>
-            
         </div>
 
     </body>

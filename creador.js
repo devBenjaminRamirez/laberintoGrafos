@@ -3,6 +3,11 @@ const valor=64;
 var alto = 0;
 var ancho = 0;
 
+var limpiar = document.getElementById("limpiar");
+limpiar.addEventListener("click",function(){
+	canvas.width=canvas.width;
+},false);
+
 function datos() {
     matriz = [];
     alto = parseInt(document.getElementById("altura").value);
@@ -107,10 +112,22 @@ function crearLaberinto(x,y){
             matriz[pos4][pos3] = 1;
         }
     }
-    draw();
+    var entrada = Math.floor(Math.random()*(y));
+    if(entrada == 0){
+        entrada = 1;
+    }
+    var salida = Math.floor(Math.random()*(y));
+    if(salida == 0){
+        salida = 1;
+    }
+    console.log(entrada);
+    console.log(salida);
+
+
+    draw(entrada, salida);
 }
 
-function draw() {
+function draw(entrada, salida) { //lista, dibuja correctamente el laberinto.
 
     var y = alto;
     var x = ancho;
@@ -122,9 +139,23 @@ function draw() {
         const ctx = canvas.getContext('2d');
         ctx.beginPath();
         ctx.moveTo(0,0);
-        ctx.lineTo(0,300);
-        ctx.moveTo(300,0);
-        ctx.lineTo(300,300);
+        ctx.lineTo(0,900);
+        ctx.moveTo(900,0);
+        ctx.lineTo(900,900);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        ctx.lineTo(entrada*(900/x),0);
+        ctx.moveTo((entrada+1)*(900/x),0);
+        ctx.lineTo(900,0);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(0,900);
+        ctx.lineTo(salida*(900/x),900);
+        ctx.moveTo((salida+1)*(900/x),900);
+        ctx.lineTo(900,900);
         ctx.stroke();
 
         for(var i=1;i<=total;i++) {
@@ -133,18 +164,18 @@ function draw() {
                 if(i==j){
                     
                     ctx.beginPath();
-                    ctx.moveTo(mov_x*(300/x), mov_y*(300/y))
+                    ctx.moveTo(mov_x*(900/x), mov_y*(900/y))
                     if(matriz[i][j+1]==0){
-                        ctx.moveTo((mov_x+1)*(300/x), mov_y*(300/y));
-                        ctx.lineTo((mov_x+1)*(300/x), (mov_y+1)*(300/y));
+                        ctx.moveTo((mov_x+1)*(900/x), mov_y*(900/y));
+                        ctx.lineTo((mov_x+1)*(900/x), (mov_y+1)*(900/y));
                         //dibujar linea hacia abajo
                     }
                     else{
-                        ctx.moveTo((mov_x+1)*(300/x), (mov_y+1)*(300/y));
+                        ctx.moveTo((mov_x+1)*(900/x), (mov_y+1)*(900/y));
                         //move
                     }
                     if(matriz[i][j+x]==0){
-                        ctx.lineTo((mov_x)*(300/x), (mov_y+1)*(300/y));
+                        ctx.lineTo((mov_x)*(900/x), (mov_y+1)*(900/y));
                         //dibujar linea hacia la izquierda
                     }
                     ctx.stroke();
@@ -161,8 +192,9 @@ function draw() {
 }
 
 function resolverLaberinto(x, y){
+    //aplicar dickstra
 
-    
+
 }
 
 function mostrarLaberintoResuelto(){
