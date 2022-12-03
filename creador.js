@@ -252,5 +252,6 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
 }
 
 function mostrarLaberintoResuelto(){
+
     //que haga los cambios pertinentes en el canvas
 }
