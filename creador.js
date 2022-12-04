@@ -19,7 +19,7 @@ function datos() {
 
     crearLaberinto(alto,ancho);
 
-    document.getElementById('out').innerHTML = matriz.join('\n');
+    //document.getElementById('out').innerHTML = matriz.join('\n');
 }
 
 function crearLaberinto(x,y){
@@ -275,7 +275,7 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
     //tabla[].distancia;
     //tabla[].previo;
 
-    for(var n=1; n<=(cantidad+1); n++){
+    for(var n=1; n<=(cantidad+2); n++){
         tabla[n] = new Object();
         tabla[n].visitado = 0;
         tabla[n].distancia = 9999999;
@@ -303,20 +303,45 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
     var nodo = final;
     while(nodo != inicio){
         ruta.push(nodo);
-        console.log(tabla[nodo].previo);
+        //console.log(tabla[nodo].previo);
         nodo = tabla[nodo].previo;
     }
     ruta.push(inicio);
 
     console.log(ruta);
-
+    mostrarLaberintoResuelto(ruta);
     /*for(var n=1; n<(cantidad+1); n++){
         console.log(n, ">", tabla[n].visitado, tabla[n].distancia, tabla[n].previo);
     }*/
     
 }
 
-function mostrarLaberintoResuelto(){
+function mostrarLaberintoResuelto(ruta){ //lista, dibuja los puntos por los que pasa para formar el camino minimo.
 
-    //que haga los cambios pertinentes en el canvas
+    var mov_x = 0;
+    var mov_y = 0;
+    var i=0;
+
+    const canvas = document.getElementById('canvas');
+    if(canvas.getContext) {
+        const ctx = canvas.getContext('2d');
+
+        while(ruta[i] != null){
+                
+            mov_x = Math.trunc((ruta[i]%ancho)-1);
+            if(mov_x < 0 && ruta[i] > 0){
+                mov_x = ancho-1;
+            }
+            if(Math.trunc((ruta[i]%ancho)) == 1){
+                mov_x = 0;
+            }
+            mov_y = Math.trunc((ruta[i]/ancho)); 
+
+            ctx.beginPath();
+            ctx.arc((mov_x*(900/ancho))+(900/(2*ancho)), mov_y*(900/alto)+(900/(2*ancho)), 900/(ancho*alto), 0, 2*Math.PI);
+            ctx.stroke();
+
+            i++;
+        }
+    }
 }
