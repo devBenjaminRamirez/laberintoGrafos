@@ -78,7 +78,71 @@ function crearLaberinto(x,y){
             }
         }
     }
-
+    /*var cont = 0;
+    for(var i=i;i<=y*x;i++){
+        for(var j=1;i<=y*x;j++){
+            if(i==j){
+                if(matriz[i][j+1] == 1){
+                    cont++;
+                }
+                if(matriz[i][j-1] == 1){
+                    cont++;
+                }if(matriz[i][j+y] == 1){
+                    cont++;
+                }
+                if(matriz[i][j-y] == 1){
+                    cont++;
+                }
+            }
+            
+        }
+    }
+    if(cont<(x*y)-1){
+        var ncaminos = (y*x)-1;
+        console.log("entra");
+        while(cont<ncaminos){
+            cont = 0;
+            if(cont<ncaminos){
+                for(var i=i;i<=y*x;i++){
+                    for(var j=1;i<=y*x;j++){
+                        if(i==j){
+                            if(matriz[i][j+1] == 0){
+                                matriz[i][j+1]=Math.floor(Math.random()*2);
+                            }
+                            if(matriz[i][j-1] == 0){
+                                matriz[i][j-1]=Math.floor(Math.random()*2);
+                            }
+                            if(matriz[i][j+y] == 0){
+                                matriz[i][j+y]=Math.floor(Math.random()*2);
+                            }
+                            if(matriz[i][j-y] == 0){
+                                matriz[i][j-y]=Math.floor(Math.random()*2);
+                            }
+                        }
+                    }
+                }
+            }
+            for(var i=i;i<=y*x;i++){
+                for(var j=1;i<=y*x;j++){
+                    if(i==j){
+                        if(matriz[i][j+1] == 1){
+                            cont++;
+                        }
+                        if(matriz[i][j-1] == 1){
+                            cont++;
+                        }if(matriz[i][j+y] == 1){
+                            cont++;
+                        }
+                        if(matriz[i][j-y] == 1){
+                            cont++;
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+    
+    
     for(var i=1; i<=x*y; i++) {         //lo vuelve conexo
         var suma = 0;
         var pos1 = 0;
@@ -128,6 +192,7 @@ function crearLaberinto(x,y){
     }
     console.log(entrada);
     console.log(salida);
+    
 
 
     draw(entrada, salida);
@@ -238,12 +303,12 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
     var nodo = final;
     while(nodo != inicio){
         ruta.push(nodo);
-        //console.log(tabla[nodo].previo);
+        console.log(tabla[nodo].previo);
         nodo = tabla[nodo].previo;
     }
     ruta.push(inicio);
 
-    //console.log(ruta);
+    console.log(ruta);
 
     /*for(var n=1; n<(cantidad+1); n++){
         console.log(n, ">", tabla[n].visitado, tabla[n].distancia, tabla[n].previo);
