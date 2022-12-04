@@ -1,5 +1,20 @@
+/*
+Integrantes:
+    -Pablo Castillo     (RUT: 20.858.272-0)
+    -Tomas Cayul        (RUT: 20.722.016-7)
+    -Victor Guzman      (RUT: 20.456.492-2)
+    -Roberto Jorquera   (RUT: 20.846.312-8)
+    -Victor Ubeda       (RUT: 21.041.812-1)
+Seccion: 411.
+Fecha: 04/12/2022
+Asignatura: Grafos y lenguajes formales.
+Profesor: Michael Emil Cristi Capstick
+Carrera: Ingenieria Civil en Computacion mencion Informatica
+*/
+
 var matriz=[];
 var matriz2=[];
+var ruta = [];
 const valor=64;
 var alto = 0;
 var ancho = 0;
@@ -12,14 +27,12 @@ limpiar.addEventListener("click",function(){
 	canvas.width=canvas.width;
 },false);
 
-function datos() {
+function datos() { //funcion que se encarga de recibir los datos ingresados en las casillas y convertirlos a valor entero (numerico)
     matriz = [];
     alto = parseInt(document.getElementById("altura").value);
     ancho = parseInt(document.getElementById("ancho").value);
-
+    
     crearLaberinto(alto,ancho);
-
-    //document.getElementById('out').innerHTML = matriz.join('\n');
 }
 
 function crearLaberinto(x,y){
@@ -31,7 +44,7 @@ function crearLaberinto(x,y){
         for(var j=0; j<=y*x; j++){
             matriz[0][0] = " ";
             if(i==0){
-                matriz[i][j] = String.fromCharCode(valor+j);
+                matriz[i][j] = String.fromCharCode(valor+j); //Asigna caracteres a los vertices, utilizado para el proceso de evaluacion.
             }
             else if(j==0){
                 matriz[i][j] = String.fromCharCode(valor+i);
@@ -51,7 +64,7 @@ function crearLaberinto(x,y){
                         matriz[i][j+y] = Math.floor(Math.random()*2);
                         matriz[j+y][i] = matriz[i][j+y];
                     }
-                    else if(i==j && j==y) {             //revisa si hay pared hacia abajo en la primera fila
+                    else if(i==j && j==y) {             //Revisa si hay pared hacia abajo en la primera fila
                         matriz[i][j+y] = Math.floor(Math.random()*2);
                         matriz[j+y][i] = matriz[i][j+y];
                     }
@@ -78,69 +91,7 @@ function crearLaberinto(x,y){
             }
         }
     }
-    /*var cont = 0;
-    for(var i=i;i<=y*x;i++){
-        for(var j=1;i<=y*x;j++){
-            if(i==j){
-                if(matriz[i][j+1] == 1){
-                    cont++;
-                }
-                if(matriz[i][j-1] == 1){
-                    cont++;
-                }if(matriz[i][j+y] == 1){
-                    cont++;
-                }
-                if(matriz[i][j-y] == 1){
-                    cont++;
-                }
-            }
-            
-        }
-    }
-    if(cont<(x*y)-1){
-        var ncaminos = (y*x)-1;
-        console.log("entra");
-        while(cont<ncaminos){
-            cont = 0;
-            if(cont<ncaminos){
-                for(var i=i;i<=y*x;i++){
-                    for(var j=1;i<=y*x;j++){
-                        if(i==j){
-                            if(matriz[i][j+1] == 0){
-                                matriz[i][j+1]=Math.floor(Math.random()*2);
-                            }
-                            if(matriz[i][j-1] == 0){
-                                matriz[i][j-1]=Math.floor(Math.random()*2);
-                            }
-                            if(matriz[i][j+y] == 0){
-                                matriz[i][j+y]=Math.floor(Math.random()*2);
-                            }
-                            if(matriz[i][j-y] == 0){
-                                matriz[i][j-y]=Math.floor(Math.random()*2);
-                            }
-                        }
-                    }
-                }
-            }
-            for(var i=i;i<=y*x;i++){
-                for(var j=1;i<=y*x;j++){
-                    if(i==j){
-                        if(matriz[i][j+1] == 1){
-                            cont++;
-                        }
-                        if(matriz[i][j-1] == 1){
-                            cont++;
-                        }if(matriz[i][j+y] == 1){
-                            cont++;
-                        }
-                        if(matriz[i][j-y] == 1){
-                            cont++;
-                        }
-                    }
-                }
-            }
-        }
-    }*/
+    
     
     
     for(var i=1; i<=x*y; i++) {         //lo vuelve conexo
@@ -194,7 +145,7 @@ function crearLaberinto(x,y){
     console.log(salida);
     
 
-
+    resolverLaberinto(); //comprueba si el laberinto tiene solucion y de ser el caso que no, vuelve a generar la matriz de adyacencia hasta que se genere uno con solucion.
     draw(entrada, salida);
 }
 
@@ -239,7 +190,7 @@ function draw(entrada, salida) { //lista, dibuja correctamente el laberinto.
                     if(matriz[i][j+1]==0){
                         ctx.moveTo((mov_x+1)*(900/x), mov_y*(900/y));
                         ctx.lineTo((mov_x+1)*(900/x), (mov_y+1)*(900/y));
-                        //dibujar linea hacia abajo
+                        //dibuja linea hacia abajo, lado derecho
                     }
                     else{
                         ctx.moveTo((mov_x+1)*(900/x), (mov_y+1)*(900/y));
@@ -247,7 +198,7 @@ function draw(entrada, salida) { //lista, dibuja correctamente el laberinto.
                     }
                     if(matriz[i][j+x]==0){
                         ctx.lineTo((mov_x)*(900/x), (mov_y+1)*(900/y));
-                        //dibujar linea hacia la izquierda
+                        //dibuja linea hacia la izquierda, lado inferior
                     }
                     ctx.stroke();
                     mov_x++;
@@ -262,7 +213,7 @@ function draw(entrada, salida) { //lista, dibuja correctamente el laberinto.
     }
 }
 
-function resolverLaberinto(){ //lista, resuelve el laberinto.
+function resolverLaberinto(){ //resuelve el laberinto, buscando el camino menos costoso posible 
 
     var inicio = entrada+1;
     var final = salida+(ancho*(alto-1))+1;
@@ -271,21 +222,18 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
     var m = 0;
     var cantidad = alto*ancho;
     var tabla = new Array(cantidad);
-    //tabla[].visitado;
-    //tabla[].distancia;
-    //tabla[].previo;
 
     for(var n=1; n<=(cantidad+2); n++){
-        tabla[n] = new Object();
-        tabla[n].visitado = 0;
-        tabla[n].distancia = 9999999;
-        tabla[n].previo = 0;
+        tabla[n] = new Object(); //instanciamos objetos para los vertices
+        tabla[n].visitado = 0;          //
+        tabla[n].distancia = 9999999;   //datos de los vertices 
+        tabla[n].previo = 0;            //
     }
-    tabla[inicio].distancia = 0;
+    tabla[inicio].distancia = 0;        //igualamos la distancia recorrida en 0 para la entrada.
     
-    for(distancia = 0; distancia < (cantidad+1); distancia++){
+    for(distancia = 0; distancia < (cantidad+1); distancia++){  //recorre todo el laberinto
         for(n=1;n<=(cantidad+1);n++){
-            if((tabla[n].visitado == 0) && (tabla[n].distancia == distancia)){
+            if((tabla[n].visitado == 0) && (tabla[n].distancia == distancia)){ 
                 tabla[n].visitado = 1;
                 for(m=1;m<=(cantidad+1); m++){
                     if(matriz[n][m] == 1){
@@ -299,21 +247,20 @@ function resolverLaberinto(){ //lista, resuelve el laberinto.
         }
     }
 
-    var ruta = [];
+    ruta = [];
     var nodo = final;
-    while(nodo != inicio){
+    while(nodo != inicio){ //recorremos los nodos
         ruta.push(nodo);
-        //console.log(tabla[nodo].previo);
+        if(tabla[nodo] == null){ //condicion que evalua si el laberinto no tiene solucion
+            console.log("no tiene solucion"); //muestra en consola si la matriz generada no tiene solucion
+            crearLaberinto(alto,ancho); //vuelve a crear la matriz
+            
+            return 0; //condicion de termino
+        }
         nodo = tabla[nodo].previo;
     }
     ruta.push(inicio);
-
-    console.log(ruta);
-    mostrarLaberintoResuelto(ruta);
-    /*for(var n=1; n<(cantidad+1); n++){
-        console.log(n, ">", tabla[n].visitado, tabla[n].distancia, tabla[n].previo);
-    }*/
-    
+    console.log(ruta); //muestra la ruta mas corta para llegar a la salida
 }
 
 function mostrarLaberintoResuelto(ruta){ //lista, dibuja los puntos por los que pasa para formar el camino minimo.
@@ -326,7 +273,7 @@ function mostrarLaberintoResuelto(ruta){ //lista, dibuja los puntos por los que 
     if(canvas.getContext) {
         const ctx = canvas.getContext('2d');
 
-        while(ruta[i] != null){
+        while(ruta[i] != null){     //evaluamos los movimientos que se deben realizar para las figuras.
                 
             mov_x = Math.trunc((ruta[i]%ancho)-1);
             if(mov_x < 0 && ruta[i] > 0){
@@ -337,11 +284,15 @@ function mostrarLaberintoResuelto(ruta){ //lista, dibuja los puntos por los que 
             }
             mov_y = Math.trunc((ruta[i]/ancho)); 
 
+            if(ruta[i]%ancho == 0){
+                mov_y--;
+            }
+
             ctx.beginPath();
-            ctx.arc((mov_x*(900/ancho))+(900/(2*ancho)), mov_y*(900/alto)+(900/(2*ancho)), 900/(ancho*alto), 0, 2*Math.PI);
+            ctx.arc((mov_x*(900/ancho))+(900/(2*ancho)), mov_y*(900/alto)+(900/(2*alto)), (500/(ancho*alto))+2, 0, 2*Math.PI); //generamos las figuras que muestran el path a seguir para resolver el laberinto
             ctx.stroke();
 
-            i++;
+            i++; 
         }
     }
 }
